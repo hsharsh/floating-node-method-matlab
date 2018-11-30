@@ -9,10 +9,12 @@ x = x(:,2:3);
 conn = load('elements.inp');
 conn = conn(:,2:5);
 skip = [];
-% ny = 20;
+%{
+ny = 20;
 nr1 = 6;
 nr2 = 12;
 ns = 12;
+%}
 elem = generate_elements(conn);
 nnod = size(x,1);
 nelm = size(conn,1);
@@ -21,6 +23,8 @@ rho = 1;
 eta = 0;
 
 broken = [];
+conn_ext = [];
+x_ext = [];
 %compute_neighbours()
 
 un = zeros(nnod*2,1);	un1 = zeros(nnod*2,1);
@@ -33,9 +37,9 @@ nodi = nnod*2 + 1;
 boundary_conditions()
 general_boundary_conditions()
 
-dt = 0.0025;
+dt = 0.01;
 
-tmax = 20;
+tmax = 10;
 plt_y = 0:dt:tmax;
 
 n = 1;
@@ -72,10 +76,10 @@ while t < tmax
         boundary_conditions()
     end
     general_boundary_conditions()
-	
+
     un1 = un + vn1*dt;
 
- 
+
     % Stress + Strain energy
     compute_element_properties()
     compute_nodal_properties()
@@ -89,15 +93,15 @@ while t < tmax
         an1([s*2-1 s*2],:) = 0;
         stress(s,:) = 0;
     end
-    
+
     xdeformed = [x(:,1) + un(1:2:2*nnod) x(:,2) + un(2:2:2*nnod) zeros(size(x(:,1)))];
     u = [un1(1:2:2*nnod) un1(2:2:2*nnod) zeros(size(un1(1:2:2*nnod)))];
- 	v = [vn1(1:2:2*nnod) vn1(2:2:2*nnod) zeros(size(vn1(1:2:2*nnod)))];
- 	a = [an1(1:2:2*nnod) vn1(2:2:2*nnod) zeros(size(vn1(1:2:2*nnod,1)))];
+    v = [vn1(1:2:2*nnod) vn1(2:2:2*nnod) zeros(size(vn1(1:2:2*nnod)))];
+    a = [an1(1:2:2*nnod) vn1(2:2:2*nnod) zeros(size(vn1(1:2:2*nnod,1)))];
     stress = stress(1:nnod,1);
 
     vtkwrite(['x0',num2str(t*1e5),'.vtk'],conn,xdeformed,u,v,a,stress);
-    
+
     % Update step
     un = un1;
     vn = vn1;
