@@ -9,8 +9,9 @@ x = x(:,2:3);
 conn = load('elements.inp');
 conn = conn(:,2:5);
 skip = [];
+
+ny = 4;
 %{
-ny = 20;
 nr1 = 6;
 nr2 = 12;
 ns = 12;
@@ -20,9 +21,10 @@ nnod = size(x,1);
 nelm = size(conn,1);
 E = 1;
 rho = 1;
-eta = 0;
+eta = 0.5;
 
 broken = [];
+crack = [];
 conn_ext = [];
 x_ext = [];
 %compute_neighbours()
@@ -37,24 +39,27 @@ nodi = nnod*2 + 1;
 boundary_conditions()
 general_boundary_conditions()
 
-dt = 0.01;
+dt = 0.05;
 
-tmax = 10;
+tmax = 25;
 plt_y = 0:dt:tmax;
 
 n = 1;
 t = 0;
 while t < tmax
-    if ~isempty(broken)
+%{
+    if ~isempty(crack)
         dt = 0.001;
     end
-    disp(t);
-	mg = zeros((nodi-1),1);
+%}
+
+  disp(t);
+  mg = zeros((nodi-1),1);
  	fi = zeros((nodi-1),1);
-    fg = zeros((nodi-1),1);
-    lcg = zeros((nodi-1),1);
-    % Define crack
-     crack_definition()
+  fg = zeros((nodi-1),1);
+  lcg = zeros((nodi-1),1);
+  % Define crack
+  crack_definition()
 
 	% Add floating nodes to the global matrices
  	floating_nodes()
@@ -63,7 +68,7 @@ while t < tmax
 	assemble_fi()
 
 	% Linearized Global damping matrix
-    assemble_lcg()
+  assemble_cg()
 
     % Linearized Global Mass matrix assembly
 	assemble_mg()

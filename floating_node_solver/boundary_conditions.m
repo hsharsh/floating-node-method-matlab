@@ -1,6 +1,6 @@
-%{
-% Rectangle
 
+% Rectangle
+%{
 left = [1 4 5:ny+2];
 bc1 = 0.1;
 bc2 = 0;
@@ -59,12 +59,12 @@ inner = [2 ny+4:2*ny+1 4];
 
 for ibc = 1:length(inner)
    node_bc = inner(ibc);
-   idof = node_bc*2-1;   
+   idof = node_bc*2-1;
    bc1 = x(node_bc,1); bc2 = x(node_bc,2);   r = sqrt(bc1^2+bc2^2);
    bc1 = 0.1*bc1/r; bc2 = 0.1*bc2/r;
    vn(idof) = bc1;
    vn1(idof) = bc1;
    vn(idof+1) = bc2;
-   vn1(idof+1) = bc2;   
+   vn1(idof+1) = bc2;
 end
 %}

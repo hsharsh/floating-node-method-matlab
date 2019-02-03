@@ -1,19 +1,19 @@
-%{
+
 % Rectangle in the middle
-if t == 10
+if abs(t - 20) < 1e-5
 	cen = ceil(nelm/2);
-	crack = [cen-(ny/2-1):cen+(ny/2-1)];
+	crack = [21 62 103 144]
 	for j = 1:length(crack)
 		elem(crack(j)).discont = 1;
 		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
 	end
 end
-%}
+
 
 %{
 % Sqauare chunk
 
-if t == 10
+if t >= 10
 	cen = ceil(nelm/2);
 	crack1 = cen-(ny/2-1):cen-1;
     crack2 = cen-(ny/2-1)*(ny-1):(ny-1):(cen-ny+1);
@@ -24,7 +24,7 @@ if t == 10
     for j = 1:length(crack2)
 		elem(crack2(j)).discont = 1;
 		elem(crack2(j)).edges = [-1 1 -1 1; -1 0.5 -1 0.5];
-    end        
+    end
     elem(cen).discont= 1;
     elem(cen).edges = [1 -1 -1 1; 0.5 -1 -1 0.5];
 end
@@ -33,7 +33,7 @@ end
 %{
 % Radial crack
 
-if t == 10
+if t >= 10
 	cen = ceil(nelm/2);
 	crack = [cen-(ny/2-1):cen+(ny/2-1)];
 	for j = 1:length(crack)
@@ -50,12 +50,15 @@ cen = ceil(nelm/2);
 crack = [cen-(ny/2-1):cen+(ny/2-1)];
 tt = 6:1:5+(ny-1);
 for j = 1:length(tt)
-    if t == tt(j)
+    if abs(t-tt(j)) < 1e-5
 		elem(crack(j)).discont = 1;
-		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];        
+		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
     end
 end
 %}
+
+%{
+% Stress based
 
 stress_elem = zeros(nelm,1);
 
@@ -70,7 +73,7 @@ for lmn = 1:nelm
     if elem(lmn).discont == 0
         nodes = elem(lmn).nodes;
         xvec = x(nodes,1);
-        yvec = x(nodes,2);        
+        yvec = x(nodes,2);
 
 	    dof =  [
 	        nodes(1)*2-1 nodes(1)*2 ...
@@ -109,7 +112,7 @@ max_stress_element = find(stress_elem == max(stress_elem));
 
 nodes = elem(max_stress_element).nodes;
 xvec = x(nodes,1);
-yvec = x(nodes,2);        
+yvec = x(nodes,2);
 
 dof =  [
     nodes(1)*2-1 nodes(1)*2 ...
@@ -137,31 +140,33 @@ if (D(1) > 2e-1 && elem(max_stress_element).discont == 0)
 	elem(max_stress_element).discont = 1;
 
 	% Intersection with s = 1
-	s = 1; 
+	s = 1;
 	r = dir(1)*(s/dir(2));
 	if (-1<r && r<1)
-		elem(max_stress_element).edges(:,1) = [1; abs((r-1)/2)]; 
+		elem(max_stress_element).edges(:,1) = [1; abs((r-1)/2)];
 	end
 
 	% Intersection with r = -1
-	r = -1; 
+	r = -1;
 	s = dir(2)*(r/dir(1));
 	if (-1<s && s<1)
-		elem(max_stress_element).edges(:,2) = [1; abs((s-1)/2)]; 
+		elem(max_stress_element).edges(:,2) = [1; abs((s-1)/2)];
 	end
-	
+
 	% Intersection with s = -1
-	s = -1; 
+	s = -1;
 	r = dir(1)*(s/dir(2));
 	if (-1<r && r<1)
-		elem(max_stress_element).edges(:,3) = [1; abs((r+1)/2)]; 
+		elem(max_stress_element).edges(:,3) = [1; abs((r+1)/2)];
 	end
 
 	% Intersection with r = 1
-	r = 1; 
+	r = 1;
 	s = dir(2)*(r/dir(1));
 	if (-1<s && s<1)
-		elem(max_stress_element).edges(:,4) = [1; abs((s+1)/2)]; 
+		elem(max_stress_element).edges(:,4) = [1; abs((s+1)/2)];
 	end
 	broken = [broken max_stress_element]
 end
+
+%}

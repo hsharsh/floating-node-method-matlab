@@ -99,7 +99,7 @@ bottom =[   5,   8,  92,  93,  94,  95,  96,  97,  98,  99, 100];
 %}
 %}
 
-
+%{
 % Plate with two holes
 left = [3,   4,  11,  12,  31,  32,  33,  34,  35,  36,  37,  38,  39, 111, 112, 113, 114, 115, 116, 117, 118, 119, 140, 141, 142, 143];
 bc1 = 0;
@@ -127,4 +127,27 @@ for ibc = 1:length(bottom)
     idof = node_bc*2-1;
     vn(idof+1) = bc2;
     vn1(idof+1) = bc2;
+end
+%}
+
+
+% Uniform loading
+
+left = [1:42:169];
+bc1 = -0.1;
+for ibc = 1:length(left)
+    node_bc = left(ibc);
+    idof = node_bc*2-1;
+    vn(idof) = bc1;
+    vn1(idof) = bc1;
+end
+
+
+right = [42:42:210];
+bc1 = 0.1;
+for ibc = 1:length(right)
+    node_bc = right(ibc);
+    idof = node_bc*2-1;
+    vn(idof) = bc1;
+    vn1(idof) = bc1;
 end
