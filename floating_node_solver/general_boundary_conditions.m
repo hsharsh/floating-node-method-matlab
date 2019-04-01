@@ -20,7 +20,7 @@ for ibc = 1:length(bottom)
 end
 %}
 
-%{
+
 % Rectangle time dependent
 
 left = [1 4 5:ny+2];
@@ -41,7 +41,7 @@ for ibc = 1:length(right)
     vn(idof) = bc1;
     vn1(idof) = bc1;
 end
-%}
+
 
 
 %{
@@ -130,24 +130,27 @@ for ibc = 1:length(bottom)
 end
 %}
 
-
+%{
 % Uniform loading
 
 left = [1:42:169];
-bc1 = -0.1;
+bc1 = -0.01;
 for ibc = 1:length(left)
     node_bc = left(ibc);
     idof = node_bc*2-1;
-    vn(idof) = bc1;
-    vn1(idof) = bc1;
+    % vn(idof) = bc1;
+    % vn1(idof) = bc1;
+    fg(idof) = bc1;
 end
 
 
 right = [42:42:210];
-bc1 = 0.1;
+bc1 = 0.01;
 for ibc = 1:length(right)
     node_bc = right(ibc);
     idof = node_bc*2-1;
-    vn(idof) = bc1;
-    vn1(idof) = bc1;
+    % vn(idof) = bc1;
+    % vn1(idof) = bc1;
+    fg(idof) = bc1;
 end
+%}

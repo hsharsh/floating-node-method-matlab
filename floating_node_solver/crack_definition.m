@@ -1,4 +1,4 @@
-
+%{
 % Rectangle in the middle
 if abs(t - 20) < 1e-5
 	cen = ceil(nelm/2);
@@ -8,7 +8,7 @@ if abs(t - 20) < 1e-5
 		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
 	end
 end
-
+%}
 
 %{
 % Sqauare chunk
@@ -43,22 +43,32 @@ if t >= 10
 end
 %}
 
-%{
-% Rectangle time dependent
 
-cen = ceil(nelm/2);
-crack = [cen-(ny/2-1):cen+(ny/2-1)];
-tt = 6:1:5+(ny-1);
-for j = 1:length(tt)
-    if abs(t-tt(j)) < 1e-5
-		elem(crack(j)).discont = 1;
-		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
-    end
-end
-%}
+% % Rectangle time dependent
 
-%{
+% cen = ceil(nelm/2);
+% crack = [cen-(ny/2-1):cen+(ny/2-1)];
+% tt = 6:1:5+(ny-1);
+% for j = 1:length(tt)
+%     if abs(t-tt(j)) < 1e-5
+% 		elem(crack(j)).discont = 1;
+% 		elem(crack(j)).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
+%     end
+% end
+
+
+
 % Stress based
+
+% Crack induction
+
+if abs(t-20) < 1e-5
+	cen = ceil(nelm/2);
+	crack = cen+(ny/2-1)+1;
+	elem(crack).discont = 1;
+	elem(crack).edges = [1 -1 1 -1; 0.5 -1 0.5 -1];
+end
+
 
 stress_elem = zeros(nelm,1);
 
@@ -133,7 +143,7 @@ sig = [stress(1) 0 0;
 
 [direction, D] = eigs(sig,size(sig,1));
 
-if (D(1) > 2e-1 && elem(max_stress_element).discont == 0)
+if (D(1) > 4.5e-1 && elem(max_stress_element).discont == 0)
 	dir = [cos(pi/2) -sin(pi/2) 0; sin(pi/2) cos(pi/2) 0; 0 0 1]*direction(1,:)';
 
 	elem(max_stress_element).edges = -1*ones(2,4);
@@ -169,4 +179,3 @@ if (D(1) > 2e-1 && elem(max_stress_element).discont == 0)
 	broken = [broken max_stress_element]
 end
 
-%}

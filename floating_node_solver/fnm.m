@@ -5,12 +5,12 @@ close all
 tic;
 % Loading and declaring variables
 x = load('nodes.inp');
-x = x(:,2:3);
+% x = x(:,2:3);
 conn = load('elements.inp');
-conn = conn(:,2:5);
+% conn = conn(:,2:5);
 skip = [];
 
-ny = 4;
+ny = 20;
 %{
 nr1 = 6;
 nr2 = 12;
@@ -41,7 +41,7 @@ general_boundary_conditions()
 
 dt = 0.05;
 
-tmax = 25;
+tmax = 50;
 plt_y = 0:dt:tmax;
 
 n = 1;
@@ -53,13 +53,13 @@ while t < tmax
     end
 %}
 
-  disp(t);
-  mg = zeros((nodi-1),1);
- 	fi = zeros((nodi-1),1);
-  fg = zeros((nodi-1),1);
-  lcg = zeros((nodi-1),1);
-  % Define crack
-  crack_definition()
+    disp(t);
+    mg = zeros((nodi-1),1);
+    fi = zeros((nodi-1),1);
+    fg = zeros((nodi-1),1);
+    lcg = zeros((nodi-1),1);
+    % Define crack
+    crack_definition()
 
 	% Add floating nodes to the global matrices
  	floating_nodes()
@@ -68,10 +68,13 @@ while t < tmax
 	assemble_fi()
 
 	% Linearized Global damping matrix
-  assemble_cg()
+    assemble_cg()
 
     % Linearized Global Mass matrix assembly
 	assemble_mg()
+
+    % For force boundary-conditions
+    general_boundary_conditions()
 
 	% Solver
 	an1 = (1./mg).*(fg-fi-lcg);
