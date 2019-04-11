@@ -5,9 +5,9 @@ close all
 tic;
 % Loading and declaring variables
 x = load('nodes.inp');
-% x = x(:,2:3);
+x = x(:,2:3);
 conn = load('elements.inp');
-% conn = conn(:,2:5);
+conn = conn(:,2:5);
 skip = [];
 
 ny = 20;
@@ -20,8 +20,9 @@ elem = generate_elements(conn);
 nnod = size(x,1);
 nelm = size(conn,1);
 E = 1;
+nu = 0;       % Modify code to change from here
 rho = 1;
-eta = 0.5;
+eta = 0; % 0.5*E;
 
 broken = [];
 crack = [];
@@ -39,9 +40,9 @@ nodi = nnod*2 + 1;
 boundary_conditions()
 general_boundary_conditions()
 
-dt = 0.05;
+dt = 0.004;
 
-tmax = 50;
+tmax = 40;
 plt_y = 0:dt:tmax;
 
 n = 1;
@@ -85,7 +86,7 @@ while t < tmax
     end
     general_boundary_conditions()
 
-    un1 = un + vn1*dt;
+    un1 = un + vn1*dt + 0.5*an1*dt^2;
 
 
     % Stress + Strain energy

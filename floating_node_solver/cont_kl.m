@@ -20,7 +20,7 @@ function [kl, area] = cont_kl(xvec,yvec,area,E)
             B3(3:4, 2:2:end) = B1;
             Bjac = Bjac';
             B = B0*Bjac*B3;
-            D = [E 0 0; 0 E 0; 0 0 0.5*E];
+            D = E/((1+nu)*(1-2*nu))*[1-nu 0 0; 0 1-nu 0; 0 0 1-2*nu];
             kl = kl + B'*D*B *det(jac) * wgp(i) * wgp(j);
             area = area + det(jac)* wgp(i) * wgp(j);
         end

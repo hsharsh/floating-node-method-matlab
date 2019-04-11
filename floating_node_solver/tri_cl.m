@@ -1,10 +1,10 @@
-function [cl, area] = tri_cl(xvec,yvec,area,eta)
+function [cl, area] = tri_cl(xvec,yvec,area,eta,nu)
     a = det([1 1 1; xvec'; yvec'])/2;
     B1 = [  yvec(2)-yvec(3), yvec(3)-yvec(1), yvec(1)-yvec(2);
             xvec(3)-xvec(2), xvec(1)-xvec(3), xvec(2)-xvec(1)
     ]/(2*a);
     
-    D = eta*eye(3);
+    D = eta/((1+nu)*(1-2*nu))*[1-nu 0 0; 0 1-nu 0; 0 0 1-2*nu];
     B2 = zeros(4,6);
     B2(1:2, 1:2:end) = B1;
     B2(3:4, 2:2:end) = B1;

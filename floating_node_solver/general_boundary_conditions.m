@@ -14,33 +14,33 @@ bottom = [2 3 (3*ny:4*ny-3)];
 bc2 = 0;
 for ibc = 1:length(bottom)
    node_bc = bottom(ibc);
-   idof = node_bc*2-1;
+   idof = node_bc*2-1;`
    vn(idof+1) = bc2;
    vn1(idof+1) = bc2;
 end
 %}
 
 
-% Rectangle time dependent
+% % Rectangle time dependent
 
-left = [1 4 5:ny+2];
-bc1 = -0.05;
-for ibc = 1:length(left)
-    node_bc = left(ibc);
-    idof = node_bc*2-1;
-    vn(idof) = bc1;
-    vn1(idof) = bc1;
-end
+% left = [1 4 5:ny+2];
+% bc1 = -0.05;
+% for ibc = 1:length(left)
+%     node_bc = left(ibc);
+%     idof = node_bc*2-1;
+%     vn(idof) = bc1;
+%     vn1(idof) = bc1;
+% end
 
 
-right = [2 3 2*ny+1:3*ny-2];
-bc1 = 0.05;
-for ibc = 1:length(right)
-    node_bc = right(ibc);
-    idof = node_bc*2-1;
-    vn(idof) = bc1;
-    vn1(idof) = bc1;
-end
+% right = [2 3 2*ny+1:3*ny-2];
+% bc1 = 0.05;
+% for ibc = 1:length(right)
+%     node_bc = right(ibc);
+%     idof = node_bc*2-1;
+%     vn(idof) = bc1;
+%     vn1(idof) = bc1;
+% end
 
 
 
@@ -154,3 +154,27 @@ for ibc = 1:length(right)
     fg(idof) = bc1;
 end
 %}
+
+
+% Notched crack - open opening
+
+% dt = 1e-5 tmax = 0.01
+
+top = [3, 4,  10,  11,  31,  32,  33,  34,  77,  78,  79,  80, 119, 120, 121];
+bc1 = 1e-1;
+for ibc = 1:length(top)
+    node_bc = top(ibc);
+    idof = node_bc*2-1;
+    vn(idof+1) = bc1;
+    vn1(idof+1) = bc1;
+end
+
+
+bottom = [7,   8,  13,  16,  59,  60,  61,  62, 112, 113, 114, 115, 122, 123, 124];
+bc1 = -1e-1;
+for ibc = 1:length(bottom)
+    node_bc = bottom(ibc);
+    idof = node_bc*2-1;
+    vn(idof+1) = bc1;
+    vn1(idof+1) = bc1;
+end

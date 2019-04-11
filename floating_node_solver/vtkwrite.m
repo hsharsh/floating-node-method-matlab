@@ -1,6 +1,6 @@
 function vtkwrite(filename,connectivity,position,u,v,a,stress)
-    fid = fopen(['/home/hsharsh/floating-node-method/data/',filename],'w');
-%    fid = fopen(['D:\Floating Node Method\floating-node-method\data\',filename],'w');
+    % fid = fopen(['/home/hsharsh/Dropbox/floating-node-method/data/',filename],'w');
+    fid = fopen(['C:\Users\prave\Dropbox\floating-node-method\data\',filename],'w');
     fprintf(fid, '# vtk DataFile Version 1.0\n');
     fprintf(fid, 'VTK - Matlab export\n');
     fprintf(fid, 'ASCII\n');
