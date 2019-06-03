@@ -40,30 +40,28 @@ nodi = nnod*2 + 1;
 boundary_conditions()
 general_boundary_conditions()
 
-dt = 0.004;
+dt = 0.05;
 
-tmax = 40;
+tmax = 1;
 plt_y = 0:dt:tmax;
 
 n = 1;
 t = 0;
-while t < tmax
-%{
-    if ~isempty(crack)
+while t <= tmax
+
+    if ~isempty(broken)
         dt = 0.001;
     end
-%}
 
-    disp(t);
     mg = zeros((nodi-1),1);
     fi = zeros((nodi-1),1);
     fg = zeros((nodi-1),1);
     lcg = zeros((nodi-1),1);
     % Define crack
-    crack_definition()
+%     crack_definition()
 
 	% Add floating nodes to the global matrices
- 	floating_nodes()
+%  	floating_nodes()
 
 	% Linearized Global Stiffness matrix assembly
 	assemble_fi()
@@ -88,7 +86,6 @@ while t < tmax
 
     un1 = un + vn1*dt + 0.5*an1*dt^2;
 
-
     % Stress + Strain energy
     compute_element_properties()
     compute_nodal_properties()
@@ -103,6 +100,8 @@ while t < tmax
         stress(s,:) = 0;
     end
 
+
+
     xdeformed = [x(:,1) + un(1:2:2*nnod) x(:,2) + un(2:2:2*nnod) zeros(size(x(:,1)))];
     u = [un1(1:2:2*nnod) un1(2:2:2*nnod) zeros(size(un1(1:2:2*nnod)))];
     v = [vn1(1:2:2*nnod) vn1(2:2:2*nnod) zeros(size(vn1(1:2:2*nnod)))];
@@ -116,13 +115,13 @@ while t < tmax
     vn = vn1;
     n = n+1;
     t = t+dt;
+    disp(['t: ',num2str(t),9,'   SE: ', num2str(sum(se))]);
 end
 
 hold on;
 
-plot(0:dt:t,plt_y,'b');
+plot(0:dt:tmax,plt_y,'b');
 xlabel('Time');
 ylabel('Strain energy');
 grid on;
-
 toc;
