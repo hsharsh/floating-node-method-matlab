@@ -68,3 +68,14 @@ for ibc = 1:length(inner)
    vn1(idof+1) = bc2;
 end
 %}
+
+% Simple square plate
+left = [1:21:421];
+bc1 = 0.01;
+for ibc = 1:length(left)
+    node_bc = left(ibc);
+    idof = node_bc*2-1;
+    vn(idof) = bc1;
+    vn1(idof) = bc1;
+    % fg(idof) = bc1;
+end

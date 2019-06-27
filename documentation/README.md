@@ -1,6 +1,8 @@
 # Crack propogation with FNM
 
 The code includes several modules. They are described below:
+### Obsolete code. Has a lot of bugs. Changed to a C++ codebase.
+
 ##### Floating node solver (floating_node_solver)
   - _assemble_fi_: Assembly of Internal forces (Kg*u) 
   - _assemble_mg_: Assembly of linearized mass matrix

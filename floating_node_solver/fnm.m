@@ -38,15 +38,16 @@ M = containers.Map('KeyType','double','ValueType','any');
 nodi = nnod*2 + 1;
 
 boundary_conditions()
-general_boundary_conditions()
+% general_boundary_conditions()
 
 dt = 0.05;
 
-tmax = 1;
+tmax = 30;
 plt_y = 0:dt:tmax;
 
 n = 1;
 t = 0;
+
 while t <= tmax
 
     if ~isempty(broken)
@@ -58,10 +59,10 @@ while t <= tmax
     fg = zeros((nodi-1),1);
     lcg = zeros((nodi-1),1);
     % Define crack
-%     crack_definition()
+    % crack_definition()
 
 	% Add floating nodes to the global matrices
-%  	floating_nodes()
+ 	% floating_nodes()
 
 	% Linearized Global Stiffness matrix assembly
 	assemble_fi()
@@ -73,18 +74,20 @@ while t <= tmax
 	assemble_mg()
 
     % For force boundary-conditions
-    general_boundary_conditions()
+    % general_boundary_conditions()
 
 	% Solver
+    fi(1:15)
+    mg(1:15)
 	an1 = (1./mg).*(fg-fi-lcg);
 	vn1 = vn + an1*dt;
 
     if t <= 4
         boundary_conditions()
     end
-    general_boundary_conditions()
+    % general_boundary_conditions()
 
-    un1 = un + vn1*dt + 0.5*an1*dt^2;
+    un1 = un + vn1*dt;
 
     % Stress + Strain energy
     compute_element_properties()
@@ -115,7 +118,7 @@ while t <= tmax
     vn = vn1;
     n = n+1;
     t = t+dt;
-    disp(['t: ',num2str(t),9,'   SE: ', num2str(sum(se))]);
+    disp(['t: ',num2str(t),9,9,'   SE: ', num2str(sum(se))]);
 end
 
 hold on;

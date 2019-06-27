@@ -1,0 +1,18 @@
+Abaqus JOB Job-1
+Abaqus 6.14-1
+Abaqus License Manager checked out the following licenses:
+Abaqus/Explicit checked out 5 tokens from Flexnet server ubuntu-hp.
+<1019 out of 1024 licenses remain available>.
+Begin Analysis Input File Processor
+Tue Jun  4 11:48:21 2019
+Run pre
+Tue Jun  4 11:48:36 2019
+End Analysis Input File Processor
+Begin Abaqus/Explicit Packager
+Tue Jun  4 11:48:36 2019
+Run package
+Tue Jun  4 11:48:41 2019
+End Abaqus/Explicit Packager
+Begin Abaqus/Explicit Analysis
+Tue Jun  4 11:48:41 2019
+Run explicit

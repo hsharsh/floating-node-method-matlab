@@ -23,5 +23,6 @@ function [cl, area] = quad_cl(xvec,yvec,area,eta,nu)
             area = area + det(jac)* wgp(i) * wgp(j);
         end
     end
-    cl = eta*ones(8);
+    % Ignore the code above this. Override for cl from the line below
+    cl = eta*ones(8); 
 end

@@ -159,20 +159,42 @@ end
 % Notched crack - open opening
 
 % dt = 1e-5 tmax = 0.01
-top = [  13,  14,  19,  24, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 282, 283, 284, 285, 286, 340, 341, 342, 343, 344, 345, 346, 347];
-bc1 = 1e-2;
-for ibc = 1:length(top)
-    node_bc = top(ibc);
+% top = [  13,  14,  19,  24, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 282, 283, 284, 285, 286, 340, 341, 342, 343, 344, 345, 346, 347];
+% bc1 = 1e-2;
+% for ibc = 1:length(top)
+%     node_bc = top(ibc);
+%     idof = node_bc*2-1;
+%     vn(idof+1) = bc1;
+%     vn1(idof+1) = bc1;
+% end
+
+% bottom = [   3,   4,  12,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,  77, 78,  79,  80,  81, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181];
+% bc1 = -1e-2;
+% for ibc = 1:length(bottom)
+%     node_bc = bottom(ibc);
+%     idof = node_bc*2-1;
+%     vn(idof+1) = bc1;
+%     vn1(idof+1) = bc1;
+% end
+
+% Simple square plate
+left = [1:21:421];
+bc1 = -0.01;
+for ibc = 1:length(left)
+    node_bc = left(ibc);
     idof = node_bc*2-1;
-    vn(idof+1) = bc1;
-    vn1(idof+1) = bc1;
+    vn(idof) = bc1;
+    vn1(idof) = bc1;
+    % fg(idof) = bc1;
 end
 
-bottom = [   3,   4,  12,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,  77, 78,  79,  80,  81, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181];
-bc1 = -1e-2;
-for ibc = 1:length(bottom)
-    node_bc = bottom(ibc);
+
+right = [21:21:441];
+bc1 = 0.01;
+for ibc = 1:length(right)
+    node_bc = right(ibc);
     idof = node_bc*2-1;
-    vn(idof+1) = bc1;
-    vn1(idof+1) = bc1;
+    vn(idof) = bc1;
+    vn1(idof) = bc1;
+    % fg(idof) = bc1;
 end
